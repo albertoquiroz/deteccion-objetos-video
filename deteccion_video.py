@@ -11,35 +11,35 @@ import torch
 from torch.autograd import Variable
 
 # Codigo Nuevo
-largura_min = 80  # Largura minima do retangulo
-altura_min = 80  # Altura minima do retangulo
-offset = 6  # Erro permitido entre pixel
-pos_linha = 550
+#largura_min = 80  # Largura minima do retangulo
+#altura_min = 80  # Altura minima do retangulo
+#offset = 6  # Erro permitido entre pixel
+#pos_linha = 550
 #delay = 60  # FPS do vídeo
-detec = []
+#detec = []
 
-def pega_centro(aqx, aqy, largura, altura):
-    """
-    :param x: x do objeto
-    :param y: y do objeto
-    :param largura: largura do objeto
-    :param altura: altura do objeto
-    :return: tupla que contém as coordenadas do centro de um objeto
-    """
-    aqx1 = largura // 2
-    aqy1 = altura // 2
-    cx = aqx + aqx1
-    cy = aqy + aqy1
-    return cx, cy
+#def pega_centro(aqx, aqy, largura, altura):
+#    """
+#    :param x: x do objeto
+#    :param y: y do objeto
+#    :param largura: largura do objeto
+#    :param altura: altura do objeto
+#    :return: tupla que contém as coordenadas do centro de um objeto
+#    """
+#    aqx1 = largura // 2
+#    aqy1 = altura // 2
+#    cx = aqx + aqx1
+#    cy = aqy + aqy1
+#    return cx, cy
 
-def set_info(detec):
-    global carros
-    for (aqx, aqy) in detec:
-        if (pos_linha + offset) > aqy > (pos_linha - offset):
-            carros += 1
-            cv2.line(frame1, (25, pos_linha), (1200, pos_linha), (0, 127, 255), 3)
-            detec.remove((aqx, aqy))
-            print("Persons Detected: " + str(carros))
+#def set_info(detec):
+#    global carros
+#    for (aqx, aqy) in detec:
+#        if (pos_linha + offset) > aqy > (pos_linha - offset):
+#            carros += 1
+#            cv2.line(frame1, (25, pos_linha), (1200, pos_linha), (0, 127, 255), 3)
+#            detec.remove((aqx, aqy))
+#            print("Persons Detected: " + str(carros))
 
 # Codigo Nuevo
 
@@ -52,7 +52,6 @@ def Convertir_RGB(img):
     img[:, :, 1] = g
     img[:, :, 2] = b
     return img
-
 
 def Convertir_BGR(img):
     # Convertir red, blue, green a Blue, green, red
@@ -83,7 +82,6 @@ if __name__ == "__main__":
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print("cuda" if torch.cuda.is_available() else "cpu")
     model = Darknet(opt.model_def, img_size=opt.img_size).to(device)
-
 
     if opt.weights_path.endswith(".weights"):
         model.load_darknet_weights(opt.weights_path)
@@ -122,7 +120,8 @@ if __name__ == "__main__":
             detections = non_max_suppression(detections, opt.conf_thres, opt.nms_thres)
 
         #Codigo Nuevo
-        cv2.line(frame, (25, pos_linha), (1200, pos_linha), (255, 127, 0), 3)
+        #cv2.line(frame, (25, pos_linha), (1200, pos_linha), (255, 127, 0), 3)
+        #Codigo Nuevo
         
         for detection in detections:
             if detection is not None:
@@ -138,10 +137,10 @@ if __name__ == "__main__":
                     cv2.putText(frame, str("%.2f" % float(conf)), (x2, y2 - box_h), cv2.FONT_HERSHEY_SIMPLEX, 0.5,color, 5) # Certeza de prediccion de la clase
 
                     #Codigo Nuevo
-                    centro = pega_centro(x1, y1, box_w, box_h)
-                    detec.append(centro)
-                    cv2.circle(frame, centro, 4, (0, 0, 255), -1)
-                    set_info(detec)
+                    #centro = pega_centro(x1, y1, box_w, box_h)
+                    #detec.append(centro)
+                    #cv2.circle(frame, centro, 4, (0, 0, 255), -1)
+                    #set_info(detec)
                     #Codigo Nuevo
 
         #Convertimos de vuelta a BGR para que cv2 pueda desplegarlo en los colores correctos
